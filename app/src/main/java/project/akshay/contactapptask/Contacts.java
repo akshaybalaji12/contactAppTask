@@ -7,13 +7,13 @@ public class Contacts {
     public String address;
     public String dob;
     public String name;
-    public int picId;
+    public String picId;
 
     String getName(){
         return name;
     }
 
-    public Contacts(String name, String email, String mobile, String dob, String address, int picId){
+    public Contacts(String name, String email, String mobile, String dob, String address, String picId){
         this.name = name;
         this.address = address;
         this.email = email;
@@ -22,7 +22,7 @@ public class Contacts {
         this.picId = picId;
     }
 
-    public Contacts(String name, int picId){
+    public Contacts(String name, String picId){
         this.picId = picId;
         this.name = name;
     }
@@ -43,7 +43,7 @@ public class Contacts {
         return dob;
     }
 
-    public int getPicId() {
+    public String getPicId() {
         return picId;
     }
 

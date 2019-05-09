@@ -35,7 +35,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
         myViewHolder.contactName.setText(contactsArrayList.get(i).getName());
         myViewHolder.contactImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        myViewHolder.contactImage.setBackgroundResource(contactsArrayList.get(i).getPicId());
+        myViewHolder.contactImage.setBackgroundResource(Integer.parseInt(contactsArrayList.get(i).getPicId()));
 
     }
 

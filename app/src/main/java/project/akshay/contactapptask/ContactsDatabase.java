@@ -2,11 +2,14 @@ package project.akshay.contactapptask;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import java.util.ArrayList;
 
 public class ContactsDatabase implements BaseColumns {
 
@@ -24,7 +27,7 @@ public class ContactsDatabase implements BaseColumns {
 
     String CREATE_TABLE = "CREATE TABLE " + tableName + " (" + k_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             k_name + " TEXT, " + k_email + " TEXT, " + k_mobile + " TEXT, " + k_address + " TEXT, " + k_date_of_birth + " TEXT, "
-            + k_pic + " INTEGER);";
+            + k_pic + " TEXT);";
 
     public ContactsDatabase(Context context) {
         this.context = context;
@@ -51,23 +54,46 @@ public class ContactsDatabase implements BaseColumns {
         }
     }
 
-    void addContact(Contacts contacts) {
+    public void addContact(Contacts contacts) {
 
         dataBase = new DataBase(context);
         SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(k_name,contacts.getName());
-        contentValues.put(k_email,contacts.getName());
-        contentValues.put(k_date_of_birth,contacts.getName());
-        contentValues.put(k_address,contacts.getName());
-        contentValues.put(k_mobile,contacts.getName());
-        contentValues.put(k_pic,contacts.getName());
+        contentValues.put(k_email,contacts.getEmail());
+        contentValues.put(k_date_of_birth,contacts.getDob());
+        contentValues.put(k_address,contacts.getAddress());
+        contentValues.put(k_mobile,contacts.getMobile());
+        contentValues.put(k_pic,contacts.getPicId());
 
         sqLiteDatabase.insert(tableName,null,contentValues);
         sqLiteDatabase.close();
 
         AppUtilities.printLogMessages("ADDED CONTACTS ",AppUtilities.STRING_SUCCESSFUL);
+
+    }
+
+    public ArrayList<Contacts> getAllContacts() {
+
+        DataBase dataBase = new DataBase(context);
+        ArrayList<Contacts> contactsList = new ArrayList<>();
+        String sqlQuery = "SELECT * FROM " + tableName + " ORDER BY " + k_name + " COLLATE NOCASE ASC";
+
+        SQLiteDatabase sqLiteDatabase = dataBase.getReadableDatabase();
+        Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery,null);
+
+        if(cursor.moveToFirst()){
+            do {
+                Contacts contacts = new Contacts(cursor.getString(1),cursor.getString(6));
+                contactsList.add(contacts);
+                AppUtilities.printLogMessages("PIC ID ",cursor.getString(6));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+
+        return contactsList;
 
     }
 

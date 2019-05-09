@@ -1,5 +1,6 @@
 package project.akshay.contactapptask;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,14 +55,15 @@ public class AddContactActivity extends AppCompatActivity {
         String dob = Objects.requireNonNull(dobEditText.getText()).toString();
         String address = Objects.requireNonNull(addressEditText.getText()).toString();
         String mob = Objects.requireNonNull(mobEditText.getText()).toString();
-        int picID = AppUtilities.getPic();
+        String picID = Integer.toString(AppUtilities.getPic());
 
         ContactsDatabase contactsDatabase = new ContactsDatabase(getApplicationContext());
         Contacts contacts = new Contacts(name,email,mob,dob,address,picID);
 
         contactsDatabase.addContact(contacts);
 
-        finish();
+        finishAffinity();
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
         overridePendingTransition(R.anim.slide_from_left,R.anim.slide_to_right);
 
     }

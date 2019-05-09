@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Contacts> contactsDetails = new ArrayList<>();
     ContactsListAdapter contactsListAdapter;
     LinearLayoutManager manager;
+    ContactsDatabase contactsDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,21 +34,26 @@ public class MainActivity extends AppCompatActivity {
         addContactButton = findViewById(R.id.addContact);
         contactListView = findViewById(R.id.contactsListView);
         manager = new LinearLayoutManager(getApplicationContext());
+
+        contactsDatabase = new ContactsDatabase(this);
+
+        contactsDetails = contactsDatabase.getAllContacts();
+        if(contactsDetails.isEmpty()){
+            setContentView(R.layout.no_contacts_view);
+            FloatingActionButton addContactButton = findViewById(R.id.addContactButton);
+            addContactButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getApplicationContext(),AddContactActivity.class));
+                    overridePendingTransition(R.anim.slide_from_right,R.anim.slide_to_left);
+                }
+            });
+        }
         contactsListAdapter = new ContactsListAdapter(contactsDetails);
 
         contactListView.setAdapter(contactsListAdapter);
         contactListView.setLayoutManager(manager);
 
-        for(int i=0;i<500;i++){
-            Contacts contact;
-            if(i%2==0)
-                contact  = new Contacts("Bruce Wayne", AppUtilities.getPic());
-            else
-                contact = new Contacts("John Wick", AppUtilities.getPic());
-
-            contactsDetails.add(contact);
-            contactsListAdapter.notifyDataSetChanged();
-        }
 
         addContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
