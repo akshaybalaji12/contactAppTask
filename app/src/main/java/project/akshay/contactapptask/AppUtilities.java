@@ -35,8 +35,9 @@ public class AppUtilities {
     }
 
     public static int getPic(){
-        Random random = new Random();
-        int index = random.nextInt(8);
+        double randomNumber = Math.random();
+        randomNumber = randomNumber * 8;
+        int index = (int) randomNumber;
         return picsArray[index];
     }
 

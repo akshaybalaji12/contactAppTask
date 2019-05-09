@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Objects;
 
@@ -35,16 +36,28 @@ public class AddContactActivity extends AppCompatActivity {
 
         addContactButton = findViewById(R.id.addContactButton);
 
-        //addTextChangeListener();
-
         addContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addContactToDatabase();
+                if(!checkEmpty())
+                    addContactToDatabase();
+                else
+                    Toast.makeText(getApplicationContext(),getResources().getString(R.string.enterDetails),Toast.LENGTH_SHORT).show();
             }
         });
 
 
+
+    }
+
+    private boolean checkEmpty() {
+
+        return nameEditText.getText().toString().equals("") ||
+                emailEditText.getText().toString().equals("") ||
+                mobEditText.getText().toString().equals("") ||
+                countryEditText.getText().toString().equals("") ||
+                addressEditText.getText().toString().equals("") ||
+                dobEditText.getText().toString().equals("");
 
     }
 
@@ -65,124 +78,6 @@ public class AddContactActivity extends AppCompatActivity {
         finishAffinity();
         startActivity(new Intent(getApplicationContext(),MainActivity.class));
         overridePendingTransition(R.anim.slide_from_left,R.anim.slide_to_right);
-
-    }
-
-    private void addTextChangeListener() {
-
-        nameEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().equals("")){
-                    addContactButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        emailEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().equals("")){
-                    addContactButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        dobEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().equals("")){
-                    addContactButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        mobEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().equals("")){
-                    addContactButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        countryEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().equals("")){
-                    addContactButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
-        addressEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.toString().trim().equals("")){
-                    addContactButton.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
 
     }
 
