@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Contacts> contactsDetails = new ArrayList<>();
     ContactsListAdapter contactsListAdapter;
     LinearLayoutManager manager;
-    DividerItemDecoration decoration;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
         for(int i=0;i<500;i++){
             Contacts contact;
             if(i%2==0)
-                contact  = new Contacts("Bruce Wayne");
+                contact  = new Contacts("Bruce Wayne", AppUtilities.getPic());
             else
-                contact = new Contacts("John Wick");
+                contact = new Contacts("John Wick", AppUtilities.getPic());
 
             contactsDetails.add(contact);
             contactsListAdapter.notifyDataSetChanged();

@@ -1,7 +1,9 @@
 package project.akshay.contactapptask;
 
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,8 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
 
         myViewHolder.contactName.setText(contactsArrayList.get(i).getName());
-
+        myViewHolder.contactImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        myViewHolder.contactImage.setBackgroundResource(contactsArrayList.get(i).getPicId());
 
     }
 
@@ -45,12 +48,14 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
 
         TextView contactName;
         ImageView contactImage;
+        CardView container;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
             contactName = itemView.findViewById(R.id.contact_name);
             contactImage = itemView.findViewById(R.id.contactImage);
+            container = itemView.findViewById(R.id.container);
             Typeface face = Typeface.createFromAsset(itemView.getContext().getAssets(),
                     "fonts/JosefinSans-Regular.ttf");
             contactName.setTypeface(face);
