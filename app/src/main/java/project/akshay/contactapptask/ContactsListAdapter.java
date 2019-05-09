@@ -1,8 +1,8 @@
 package project.akshay.contactapptask;
 
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +14,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapter.MyViewHolder> {
+
+    private MainActivity.OnContactClickListener onContactClickListener;
+
+    public void setOnContactClickListener(MainActivity.OnContactClickListener onContactClickListener) {
+        this.onContactClickListener = onContactClickListener;
+    }
 
     public ArrayList<Contacts> contactsArrayList;
 
@@ -31,11 +37,23 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
+    public void onBindViewHolder(@NonNull final MyViewHolder myViewHolder, int i) {
+        final int index = i;
 
         myViewHolder.contactName.setText(contactsArrayList.get(i).getName());
         myViewHolder.contactImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
         myViewHolder.contactImage.setBackgroundResource(Integer.parseInt(contactsArrayList.get(i).getPicId()));
+        AppUtilities.printLogMessages("PIC ID VIEW CONTACT ",contactsArrayList.get(i).getPicId());
+
+        ViewCompat.setTransitionName(myViewHolder.contactImage,contactsArrayList.get(i).getName());
+
+        myViewHolder.container.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onContactClickListener.onContactClick(myViewHolder.contactImage, Integer.parseInt(contactsArrayList.get(index).getPicId())
+                        ,contactsArrayList.get(index).getName());
+            }
+        });
 
     }
 

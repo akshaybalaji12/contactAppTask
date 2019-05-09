@@ -2,12 +2,15 @@ package project.akshay.contactapptask;
 
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -63,5 +66,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        contactsListAdapter.setOnContactClickListener(new OnContactClickListener() {
+            @Override
+            public void onContactClick(ImageView imageView, int picID, String name) {
+                Intent intent = new Intent(getApplicationContext(),ViewContactActivity.class);
+                intent.putExtra(AppUtilities.EXTRA_PIC_ID,picID);
+                intent.putExtra(AppUtilities.EXTR_CONTACT_NAME,name);
+                ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
+                        .makeSceneTransitionAnimation(MainActivity.this,imageView,Objects.requireNonNull(ViewCompat.getTransitionName(imageView)));
+                startActivity(intent,activityOptionsCompat.toBundle());
+            }
+        });
+
     }
+
+    public interface OnContactClickListener{
+
+        void onContactClick(ImageView imageView, int picID, String name);
+
+    }
+
 }

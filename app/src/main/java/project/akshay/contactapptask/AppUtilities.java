@@ -10,6 +10,8 @@ import java.util.Random;
 public class AppUtilities {
 
     public static final String STRING_SUCCESSFUL = "SUCCESSFULLY";
+    public static final String EXTRA_PIC_ID = "EXTRA_PIC_ID";
+    public static final String EXTR_CONTACT_NAME = "EXTRA_CONTACT_NAME";
 
     private static final int[] picsArray = {R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,R.drawable.f,R.drawable.g,R.drawable.h};
 
