@@ -51,7 +51,7 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             @Override
             public void onClick(View v) {
                 onContactClickListener.onContactClick(myViewHolder.contactImage, Integer.parseInt(contactsArrayList.get(index).getPicId())
-                        ,contactsArrayList.get(index).getName());
+                        ,contactsArrayList.get(index).getName(), contactsArrayList.get(index).getMobile());
             }
         });
 

@@ -14,12 +14,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     ContactsListAdapter contactsListAdapter;
     LinearLayoutManager manager;
     RelativeLayout relativeLayout;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private int PERMISSION_REQUEST_CODE_READ_CONTACTS = 1;
     private int PERMISSION_REQUEST_CODE_WRITE_CONTACTS = 2;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setCustomView(R.layout.action_bar);
 
+        swipeRefreshLayout = findViewById(R.id.swipeToRefreshLayout);
         relativeLayout = findViewById(R.id.relativeLayout);
         addContactButton = findViewById(R.id.addContact);
         contactListView = findViewById(R.id.contactsListView);
@@ -62,7 +64,17 @@ public class MainActivity extends AppCompatActivity {
             requestPermission(Manifest.permission.READ_CONTACTS, PERMISSION_REQUEST_CODE_READ_CONTACTS);
         } else {
             displayPhoneContacts();
+            Snackbar.make(relativeLayout,"Swipe to update contacts",Snackbar.LENGTH_SHORT).show();
         }
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                finishAffinity();
+                getApplicationContext().startActivity(MainActivity.this.getIntent());
+                overridePendingTransition(R.anim.zoom_in,R.anim.zoom_out);
+            }
+        });
 
         addContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
         contactsListAdapter.setOnContactClickListener(new OnContactClickListener() {
             @Override
-            public void onContactClick(ImageView imageView, int picID, String name) {
+            public void onContactClick(ImageView imageView, int picID, String name, String mob) {
                 Intent intent = new Intent(getApplicationContext(),ViewContactActivity.class);
                 intent.putExtra(AppUtilities.EXTRA_PIC_ID,picID);
-                intent.putExtra(AppUtilities.EXTR_CONTACT_NAME,name);
+                intent.putExtra(AppUtilities.EXTRA_CONTACT_NAME,name);
+                intent.putExtra(AppUtilities.EXTRA_CONTACT_NUMBER,mob);
                 ActivityOptionsCompat activityOptionsCompat = ActivityOptionsCompat
                         .makeSceneTransitionAnimation(MainActivity.this,imageView,Objects.requireNonNull(ViewCompat.getTransitionName(imageView)));
                 startActivity(intent,activityOptionsCompat.toBundle());
@@ -102,11 +115,12 @@ public class MainActivity extends AppCompatActivity {
             cursor.moveToFirst();
 
             do {
-
                 int displayNameIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
                 String displayName = cursor.getString(displayNameIndex);
+                int contactNumberIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                String contactNumber = cursor.getString(contactNumberIndex);
                 if(checkNamePresent.add(displayName)){
-                    Contacts contacts = new Contacts(displayName,Integer.toString(AppUtilities.getPic()));
+                    Contacts contacts = new Contacts(displayName,contactNumber, Integer.toString(AppUtilities.getPic()));
                     contactsDetails.add(contacts);
                     contactsListAdapter.notifyDataSetChanged();
                 }
@@ -148,6 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(requestCode==PERMISSION_REQUEST_CODE_READ_CONTACTS) {
                     displayPhoneContacts();
+                    Snackbar.make(relativeLayout,"Swipe to update contacts",Snackbar.LENGTH_SHORT).show();
                 }else if(requestCode==PERMISSION_REQUEST_CODE_WRITE_CONTACTS) {
                     startActivity(new Intent(getApplicationContext(),AddContactActivity.class));
                     overridePendingTransition(R.anim.slide_from_right,R.anim.slide_to_left);
@@ -160,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
     public interface OnContactClickListener{
 
-        void onContactClick(ImageView imageView, int picID, String name);
+        void onContactClick(ImageView imageView, int picID, String name, String mob);
 
     }
 

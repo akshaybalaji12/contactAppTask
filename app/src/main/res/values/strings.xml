@@ -101,4 +101,6 @@
     <string name="country">Country</string>
     <string name="noContacts">Click the button below to add contacts</string>
     <string name="enterDetails">Enter all details</string>
+    <string name="displayName">Name: </string>
+    <string name="displayNumber">Mobile: </string>
 </resources>
