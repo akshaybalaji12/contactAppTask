@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             public void onRefresh() {
                 finishAffinity();
                 getApplicationContext().startActivity(MainActivity.this.getIntent());
-                overridePendingTransition(R.anim.zoom_in,R.anim.zoom_out);
+                overridePendingTransition(R.anim.slide_from_right,R.anim.slide_to_left);
             }
         });
 

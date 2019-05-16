@@ -74,9 +74,6 @@ public class ContactsListAdapter extends RecyclerView.Adapter<ContactsListAdapte
             contactName = itemView.findViewById(R.id.contact_name);
             contactImage = itemView.findViewById(R.id.contactImage);
             container = itemView.findViewById(R.id.container);
-            Typeface face = Typeface.createFromAsset(itemView.getContext().getAssets(),
-                    "fonts/JosefinSans-Regular.ttf");
-            contactName.setTypeface(face);
 
         }
     }
