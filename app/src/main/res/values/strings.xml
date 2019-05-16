@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">CONTACTS</string>
+    <string name="app_name">Contacts</string>
     <string name="addContactToolTip">Add Contact</string>
     <string name="addContact">ADD CONTACT</string>
     <string name="title_activity_view_contact">ViewContactActivity</string>
