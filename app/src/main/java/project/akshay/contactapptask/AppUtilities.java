@@ -14,7 +14,7 @@ public class AppUtilities {
     public static final String EXTRA_CONTACT_NAME = "EXTRA_CONTACT_NAME";
     public static final String EXTRA_CONTACT_NUMBER = "EXTRA_CONTACT_NUMBER";
 
-    private static final int[] picsArray = {R.drawable.a,R.drawable.b,R.drawable.c,R.drawable.d,R.drawable.e,R.drawable.f,R.drawable.g,R.drawable.h};
+    private static final int[] picsArray = {R.drawable.a};
 
     public static void setDefaultFont(Context context,
                                       String staticTypefaceFieldName, String fontAssetName) {
@@ -35,11 +35,11 @@ public class AppUtilities {
         }
     }
 
-    public static int getPic(){
+    public static int getPic(){/*
         double randomNumber = Math.random();
         randomNumber = randomNumber * 8;
-        int index = (int) randomNumber;
-        return picsArray[index];
+        int index = (int) randomNumber;*/
+        return picsArray[0];
     }
 
     public static void printLogMessages(String tag, String message){
